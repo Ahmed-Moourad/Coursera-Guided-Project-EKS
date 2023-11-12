@@ -4,13 +4,14 @@ aws configure #secret_key وال access_key لو محتاج تعدل ال
 
 aws eks update-kubeconfig --name eks-cluster-test
 
-cat /home/cloudshell-user/.kube/config 
-
 kubectl get nodes
 
 kubectl get pods -A
 
+---
 kubectl get ns
+
+cat /home/cloudshell-user/.kube/config 
 
 kubectl cluster-info
 
