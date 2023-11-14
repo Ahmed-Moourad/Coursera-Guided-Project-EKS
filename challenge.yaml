@@ -2,16 +2,16 @@ cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: new-app
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: new-app
   replicas: 1
   template:
     metadata:
       labels:
-        app: nginx
+        app: new-app
     spec:
       containers:
       - name: nginx
@@ -24,12 +24,12 @@ spec:
       volumes:
       - name: nginx-html
         configMap:
-          name: nginx-config
+          name: new-app-config
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-config
+  name: new-app-config
 data:
   index.html: |
     <!DOCTYPE html>
@@ -69,9 +69,9 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: new-app
   labels:
-    app: nginx
+    app: new-app
 spec:
   ports:
   - name: http
@@ -79,6 +79,6 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: new-app
   type: LoadBalancer
 EOF
