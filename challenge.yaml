@@ -1,0 +1,70 @@
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: python:3.8-slim
+        command: ["bash", "-c", "pip install flask && python -u -m flask run --host=0.0.0.0 --port=5000"]
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: app-html
+          mountPath: /app/templates
+      volumes:
+      - name: app-html
+        configMap:
+          name: app-config
+
+---
+# ConfigMap for Flask App HTML
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Welcome to our cool app</title>
+        <style>
+            body {
+                text-align: center;
+                font-size: 24px;
+                color: #00ff00; /* Change font color to green */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to our cool app</h1>
+        <p><small>This is my awesome EKS challenge</small></p>
+    </body>
+    </html>
+
+---
+# Service for Flask App
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app
+spec:
+  selector:
+    app: flask-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
+EOF  

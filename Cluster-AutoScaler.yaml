@@ -148,7 +148,7 @@ spec:
           type: RuntimeDefault
       serviceAccountName: cluster-autoscaler
       containers:
-        - image: registry.k8s.io/autoscaling/cluster-autoscaler:v1.26.2  #change this to your K8s version 1.28.0
+        - image: registry.k8s.io/autoscaling/cluster-autoscaler:v1.26.2  #change this to your K8s version 1.28.0 from here 
           name: cluster-autoscaler
           resources:
             limits:
