@@ -64,7 +64,6 @@ data:
         <p><small>This is our company's new Application. Enjoy!</small></p>
     </body>
     </html>
-
 ---
 apiVersion: v1
 kind: Service
